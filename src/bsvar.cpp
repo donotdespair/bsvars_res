@@ -21,7 +21,8 @@ Rcpp::List bsvar_cpp(
   const Rcpp::List& prior,              // a list of priors
   const Rcpp::List& starting_values,    // a list of starting values
   const int         thin = 100,         // introduce thinning
-  const bool        show_progress = true
+  const bool        show_progress = true,
+  const bool        hyper_boost = false
 ) {
 
   std::string oo = "";
@@ -66,7 +67,9 @@ Rcpp::List bsvar_cpp(
     // Check for user interrupts
     if (s % 200 == 0) checkUserInterrupt();
     
-    aux_hyper     = sample_hyperparameters(aux_hyper, aux_B, aux_A, VB, VA, prior);
+    if ( hyper_boost ) {
+      aux_hyper     = sample_hyperparameters(aux_hyper, aux_B, aux_A, VB, VA, prior);
+    }
     aux_A         = sample_A_homosk1(aux_A, aux_B, aux_hyper, Y, X, prior, VA);
     aux_B         = sample_B_homosk1(aux_B, aux_A, aux_hyper, Y, X, prior, VB);
     

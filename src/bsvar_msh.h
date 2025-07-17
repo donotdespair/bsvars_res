@@ -17,7 +17,8 @@ Rcpp::List bsvar_msh_cpp (
     const bool              finiteM = true,
     const bool              MSnotMIX = true,
     const std::string       name_model = "",
-    const bool              show_progress = true
+    const bool              show_progress = true,
+    const bool        hyper_boost = false
 );
 
 

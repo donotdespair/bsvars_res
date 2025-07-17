@@ -119,7 +119,7 @@ estimate.BSVARMIX <- function(specification, S, thin = 1, show_progress = TRUE) 
   }
   
   # estimation
-  qqq                 = .Call(`_bsvars_bsvar_msh_cpp`, S, data_matrices$Y, data_matrices$X, prior, VB, VA, starting_values, thin, finiteM, FALSE, model, show_progress)
+  qqq                 = .Call(`_bsvars_bsvar_msh_cpp`, S, data_matrices$Y, data_matrices$X, prior, VB, VA, starting_values, thin, finiteM, FALSE, model, show_progress, FALSE)
   
   specification$starting_values$set_starting_values(qqq$last_draw)
   output              = specify_posterior_bsvar_mix$new(specification, qqq$posterior)
@@ -185,7 +185,7 @@ estimate.PosteriorBSVARMIX <- function(specification, S, thin = 1, show_progress
   }
   
   # estimation
-  qqq                 = .Call(`_bsvars_bsvar_msh_cpp`, S, data_matrices$Y, data_matrices$X, prior, VB, VA, starting_values, thin, finiteM, FALSE, model, show_progress)
+  qqq                 = .Call(`_bsvars_bsvar_msh_cpp`, S, data_matrices$Y, data_matrices$X, prior, VB, VA, starting_values, thin, finiteM, FALSE, model, show_progress, FALSE)
   
   specification$last_draw$starting_values$set_starting_values(qqq$last_draw)
   output              = specify_posterior_bsvar_mix$new(specification$last_draw, qqq$posterior)

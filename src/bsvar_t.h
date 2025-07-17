@@ -14,7 +14,8 @@ Rcpp::List bsvar_t_cpp(
     const Rcpp::List& starting_values,    // a list of starting values
     const arma::vec&  adptive_alpha_gamma,// a 2x1 vector of adaptive MH tuning parameters: target acceptance and discounting factor
     const int         thin = 100,         // introduce thinning
-    const bool        show_progress = true
+    const bool        show_progress = true,
+    const bool        hyper_boost = false
 );
 
 #endif  // _BSVAR_T_H_

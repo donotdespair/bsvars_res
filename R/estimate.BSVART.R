@@ -108,7 +108,7 @@ estimate.BSVART <- function(specification, S, thin = 1, show_progress = TRUE) {
   adptive_alpha_gamma = specification$adaptiveMH  
   
   # estimation
-  qqq                 = .Call(`_bsvars_bsvar_t_cpp`, S, data_matrices$Y, data_matrices$X, VB, VA, prior, starting_values, adptive_alpha_gamma, thin, show_progress)
+  qqq                 = .Call(`_bsvars_bsvar_t_cpp`, S, data_matrices$Y, data_matrices$X, VB, VA, prior, starting_values, adptive_alpha_gamma, thin, show_progress, FALSE)
   
   specification$starting_values$set_starting_values(qqq$last_draw)
   output              = specify_posterior_bsvar_t$new(specification, qqq$posterior)
@@ -166,7 +166,7 @@ estimate.PosteriorBSVART <- function(specification, S, thin = 1, show_progress =
   adptive_alpha_gamma = specification$last_draw$adaptiveMH  
   
   # estimation
-  qqq                 = .Call(`_bsvars_bsvar_t_cpp`, S, data_matrices$Y, data_matrices$X, VB, VA, prior, starting_values, adptive_alpha_gamma, thin, show_progress)
+  qqq                 = .Call(`_bsvars_bsvar_t_cpp`, S, data_matrices$Y, data_matrices$X, VB, VA, prior, starting_values, adptive_alpha_gamma, thin, show_progress, FALSE)
   
   specification$last_draw$starting_values$set_starting_values(qqq$last_draw)
   output              = specify_posterior_bsvar_t$new(specification$last_draw, qqq$posterior)

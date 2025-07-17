@@ -23,7 +23,8 @@ Rcpp::List bsvar_t_cpp(
   const Rcpp::List& starting_values,    // a list of starting values
   const arma::vec&  adptive_alpha_gamma,// a 2x1 vector of adaptive MH tuning parameters: target acceptance and discounting factor
   const int         thin = 100,         // introduce thinning
-  const bool        show_progress = true
+  const bool        show_progress = true,
+  const bool        hyper_boost = false
 ) {
 
   std::string oo = "";
@@ -88,7 +89,9 @@ Rcpp::List bsvar_t_cpp(
     aux_lambda      = sample_lambda ( aux_df, aux_B, aux_A, Y, X );
     tmp_lambda_sqrt = sqrt(aux_lambda);
     
-    aux_hyper       = sample_hyperparameters(aux_hyper, aux_B, aux_A, VB, VA, prior);
+    if ( hyper_boost ) {
+      aux_hyper       = sample_hyperparameters(aux_hyper, aux_B, aux_A, VB, VA, prior);
+    }
     aux_A           = sample_A_heterosk1 ( aux_A, aux_B, aux_hyper, tmp_lambda_sqrt, Y, X, prior, VA );
     aux_B           = sample_B_heterosk1 ( aux_B, aux_A, aux_hyper, tmp_lambda_sqrt, Y, X, prior, VB );
     

@@ -23,7 +23,8 @@ Rcpp::List bsvar_sv_cpp (
     const Rcpp::List&             starting_values, 
     const int                     thin = 100, // introduce thinning
     const bool                    centred_sv = false,
-    const bool                    show_progress = true
+    const bool                    show_progress = true,
+    const bool        hyper_boost = false
 ) {
   // Progress bar setup
   vec prog_rep_points = arma::round(arma::linspace(0, S, 50));
@@ -104,7 +105,9 @@ Rcpp::List bsvar_sv_cpp (
     if (s % 200 == 0) checkUserInterrupt();
     
     // sample aux_hyper
-    aux_hyper       = sample_hyperparameters( aux_hyper, aux_B, aux_A, VB, VA, prior);
+    if ( hyper_boost ) {
+      aux_hyper       = sample_hyperparameters( aux_hyper, aux_B, aux_A, VB, VA, prior);
+    }
     
     // sample aux_B
     aux_B           = sample_B_heterosk1(aux_B, aux_A, aux_hyper, aux_sigma, Y, X, prior, VB);

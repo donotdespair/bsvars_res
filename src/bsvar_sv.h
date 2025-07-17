@@ -14,7 +14,8 @@ Rcpp::List bsvar_sv_cpp (
     const Rcpp::List&             starting_values, 
     const int                     thin = 100, // introduce thinning
     const bool                    centred_sv = false,
-    const bool                    show_progress = true
+    const bool                    show_progress = true,
+    const bool        hyper_boost = false
 );
 
 
