@@ -171,8 +171,12 @@ arma::cube forecast_bsvars (
   
   vec         Xt(K);
   cube        forecasts(N, horizon, S);
+  cube        out_forecast_mean(N, horizon, S);
+  field<cube> out_forecast_cov(S);
   
   for (int s=0; s<S; s++) {
+    
+    cube      SigmaT(N, N, horizon);
     
     if ( do_exog ) {
       Xt          = join_cols(x_t, trans(exogenous_forecast.row(0)));
@@ -196,6 +200,9 @@ arma::cube forecast_bsvars (
         forecasts.slice(s).col(h) = mvnrnd_cond( cond_forecast_h, posterior_A.slice(s) * Xt, Sigma );   // does not work if cond_fc_h is all nan
       } // END if nonf_no
       
+      SigmaT.slice(h) = Sigma;
+      out_forecast_mean.slice(s).col(h) = posterior_A.slice(s) * Xt;
+      
       if ( h != horizon - 1 ) {
         if ( do_exog ) {
           Xt          = join_cols( forecasts.slice(s).col(h), Xt.subvec(N, K - 1 - d), trans(exogenous_forecast.row(h + 1)) );
@@ -205,8 +212,15 @@ arma::cube forecast_bsvars (
       } // END if h
       
     } // END h loop
+    
+    out_forecast_cov(s) = SigmaT;
+    
   } // END s loop
   
-  return forecasts;
+  return List::create(
+    _["forecast"]       = forecasts,
+    _["forecast_mean"]  = out_forecast_mean,
+    _["forecast_cov"]   = out_forecast_cov
+  );
 } // END forecast_bsvar
 
