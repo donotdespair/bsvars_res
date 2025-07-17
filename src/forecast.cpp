@@ -146,7 +146,7 @@ arma::cube forecast_lambda_t (
 
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
-arma::cube forecast_bsvars (
+Rcpp::List forecast_bsvars (
     arma::cube&   posterior_B,        // (N, N, S)
     arma::cube&   posterior_A,        // (N, K, S)
     arma::cube&   forecast_sigma2,    // (N, horizon, S)
@@ -218,7 +218,7 @@ arma::cube forecast_bsvars (
   } // END s loop
   
   return List::create(
-    _["forecast"]       = forecasts,
+    _["forecasts"]       = forecasts,
     _["forecast_mean"]  = out_forecast_mean,
     _["forecast_cov"]   = out_forecast_cov
   );
